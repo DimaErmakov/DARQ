@@ -31,3 +31,4 @@ app.listen(3000, () => {
   console.log(`Currently pointing to: ${links[currentIndex]}`);
   console.log(`Will switch every ${SWITCH_INTERVAL_MS / 1000} seconds.`);
 });
+
