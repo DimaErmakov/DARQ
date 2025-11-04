@@ -1,3 +1,6 @@
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 // CRUD
 
 // Website where you can create, read, update, and delete QR codes.
