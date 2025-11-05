@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import QRCode from 'qrcode';
 
 // --- Icon Components (using inline SVGs for portability) ---
 // We use inline SVGs to ensure the app works without external icon libraries.
@@ -71,48 +72,7 @@ const ICONS = {
   </>,
 };
 
-// --- Custom Hook to load external script ---
-// This safely loads the qrcode.js library from a CDN.
-const useScript = (url) => {
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    // Check if script is already loaded
-    if (document.querySelector(`script[src="${url}"]`)) {
-      // Wait for window.QRCode to be available
-      const interval = setInterval(() => {
-        if (window.QRCode) {
-          setIsReady(true);
-          clearInterval(interval);
-        }
-      }, 100);
-      return () => clearInterval(interval);
-    }
-
-    const script = document.createElement('script');
-    script.src = url;
-    script.async = true;
-    script.onload = () => {
-      setIsReady(true);
-    };
-    script.onerror = () => {
-      console.error("Failed to load script:", url);
-    };
-
-    document.body.appendChild(script);
-
-    return () => {
-      // Clean up script from body if component unmounts
-      // (Though in this app, it won't)
-      const scriptElement = document.querySelector(`script[src="${url}"]`);
-      if (scriptElement) {
-        document.body.removeChild(scriptElement);
-      }
-    };
-  }, [url]);
-
-  return isReady;
-};
+// Note: Removed the runtime script loader and switched to the local `qrcode` package.
 
 // --- Toast Notification Component ---
 function Toast({ message, show, onHide }) {
@@ -408,8 +368,8 @@ export default function App() {
   const [modal, setModal] = useState({ show: false, mode: 'create', qr: null });
   const [toast, setToast] = useState({ show: false, message: '' });
 
-  // Load the external QRCode.js library
-  const qrCodeReady = useScript('https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js');
+  // Using the locally imported `qrcode` package; mark ready immediately
+  const qrCodeReady = true;
 
   // Load from localStorage on initial render
   useEffect(() => {
@@ -449,8 +409,8 @@ export default function App() {
       const id = crypto.randomUUID();
       const link = `https://your-domain.com/redirect/${id}`; // This is the stable URL
       
-      // Generate the QR code pointing to the stable URL
-      const qrDataUrl = await window.QRCode.toDataURL(link, { width: 300, margin: 2 });
+  // Generate the QR code pointing to the stable URL using the local package
+  const qrDataUrl = await QRCode.toDataURL(link, { width: 300, margin: 2 });
       
       const newQr = {
         id,
