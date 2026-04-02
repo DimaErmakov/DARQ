@@ -21,10 +21,7 @@ const Icon = ({ path, className = "w-6 h-6" }) => (
 
 const ICONS = {
   qr: <>
-    <path d="M21 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" />
-    <path d="M3 11V9a4 4 0 0 1 4-4h2" />
-    <path d="M21 11V9a4 4 0 0 0-4-4h-2" />
-    <path d="M7 21v-2a4 4 0 0 1 4-4h2" />
+
     <rect width="4" height="4" x="7" y="7" rx="1" />
     <rect width="4" height="4" x="13" y="7" rx="1" />
     <rect width="4" height="4" x="7" y="13" rx="1" />
